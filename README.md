@@ -1,50 +1,51 @@
-# React + TypeScript + Vite
+# Star Wars Character Viewer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a React-based web application that allows users to explore characters from the Star Wars universe. The app features infinite scrolling, a dynamic modal with a flow chart, and is fully tested.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React**: A JavaScript library for building user interfaces.
+- **TypeScript**: Provides static typing to help prevent bugs.
+- **Material-UI**: A popular React UI framework for implementing Material Design.
+- **Vite**: A fast and efficient build tool for modern web projects.
+- **React Window**: Virtualized list for efficient rendering of large data sets, supporting infinite scrolling.
+- **React Flow**: A library for creating and visualizing node-based flows.
 
-## Expanding the ESLint configuration
+## Functionality
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **Infinite Scrolling**: The list of Star Wars characters loads more data as you scroll down, implemented using `react-window`.
+- **Character Details**: When a user clicks on a character from the list, a modal (rendered via `ReactDOM.createPortal`) appears, displaying a flow chart of the character, the films they appear in, and the starships they use.
+- **API Integration**: The app fetches data from the [Star Wars API](https://sw-api.starnavi.io/).
+- **Component Testing**: Tests are implemented for core components like the app itself and the virtualized list.
 
-- Configure the top-level `parserOptions` property like this:
+## Installation
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+To get started with the project, clone the repository and install the dependencies:
+
+```bash
+git clone <your-repo-url>
+cd star-wars-character-viewer
+npm install
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Usage
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+Run the development server:
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+npm run dev
 ```
+
+Open http://localhost:3000 to view it in your browser.
+
+## Testing
+
+To run the tests:
+
+```bash
+npm run test
+```
+
+## API
+
+The application integrates with the Star Wars API hosted at https://sw-api.starnavi.io/ to fetch character data.
