@@ -1,0 +1,29 @@
+{
+  "files": [],
+  "baseUrl": ".",
+  "paths": {
+    "@app/*": [
+      "src/*"
+    ]
+  },
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ],
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "lib": [
+      "dom",
+      "es7"
+    ],
+    "esModuleInterop": true,
+    // ... other options ...
+    "types": [
+      "@testing-library/jest-dom"
+    ]
+  }
+}
