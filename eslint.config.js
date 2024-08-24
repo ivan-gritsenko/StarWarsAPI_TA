@@ -22,6 +22,9 @@ export default [
           "delimiter": "comma",
           "requireLast": true
         },
+        rules: {
+          "max-len": ["error", { "code": 80, "tabWidth": 2, "ignoreUrls": true }]
+        },
         "singleline": {
           "delimiter": "comma",
           "requireLast": true
@@ -33,7 +36,8 @@ export default [
               "requireLast": true
             }
           }
-        }
+        },
+        "max-len": ["error", 35]
       }],
       '@stylistic/ts/indent': ['error', 2],
       'no-unused-vars': ['warn', {}],

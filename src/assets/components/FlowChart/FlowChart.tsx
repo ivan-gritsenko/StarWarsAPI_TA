@@ -2,74 +2,14 @@ import ReactFlow, { MiniMap, Controls, Background } from "reactflow";
 import "reactflow/dist/style.css";
 import useStarWarsStore from "../../../store";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Film } from "../../../types/Film";
 import { Starship } from "../../../types/Starship";
-
-
-async function filmFetcher(id: number) {
-  try {
-    const response = await axios.get("https://swapi.dev/api/films/" + id);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-
-async function starshipFetcher(id: number) {
-  try {
-    const response = await axios.get("https://swapi.dev/api/starships/" + id);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-function FilmNodesCreator(films: Film[], personNodeId: string) {
-  const filmNodes = films.map((film, index) => ({
-    id: `f${film.episode_id}`,
-    data: { label: film.title },
-    position: { x: 200 * index, y: 100 },
-  }));
-
-  const filmEdges = films.map((film) => ({
-    id: `e${personNodeId}-f${film.episode_id}`,
-    source: personNodeId,
-    target: `f${film.episode_id}`,
-  }));
-
-  return { filmNodes, filmEdges };
-}
-
-function StarshipNodesCreator(starships: Starship[], films: Film[]) {
-  const starshipNodes = starships.map((starship, index) => {
-    return ({
-      id: `s${index}`,
-      data: { label: starship.name },
-      position: { x: 200 * index, y: 200 },
-    })
-  });
-
-  const starshipEdges = films.map((film) => {
-    return starships.reduce((acc: { id: string; source: string; target: string }[], starship, index) => {
-      if (film.starships.includes(starship.url)) {
-        acc.push({
-          id: `f${film.episode_id}-s${index}`,
-          source: `f${film.episode_id}`,
-          target: `s${index}`,
-        });
-      }
-      return acc;
-    }, []);
-  });
-
-  return { starshipNodes, starshipEdges };
-}
-
+import { filmFetcher } from "../../services/filmFetcher";
+import { starshipFetcher } from "../../services/starshipFetcher";
+import { FilmNodesCreator } from "../../helpers/FilmNodesCreator";
+import { StarshipNodesCreator } from "../../helpers/StarshipNodesCreator";
 
 function FlowChart() {
-
   const { currentPerson } = useStarWarsStore();
   const [films, setFilms] = useState<Film[]>([]);
   const [starships, setStarships] = useState<Starship[]>([]);
@@ -83,6 +23,7 @@ function FlowChart() {
         const filmData = await Promise.all(filmPromises);
         setFilms(filmData);
       };
+
       fetchFilms();
 
       if (currentPerson.starships.length > 0) {
@@ -112,13 +53,11 @@ function FlowChart() {
       setEdges([...filmEdges]);
 
       if (currentPerson.starships.length > 0) {
-
         const { starshipNodes, starshipEdges } = StarshipNodesCreator(starships, films);
         setNodes((nodes) => [...nodes, ...starshipNodes]);
         setEdges((edges) => [...edges, ...starshipEdges]);
       }
     }
-
   }, [films, currentPerson, starships]);
 
   return (

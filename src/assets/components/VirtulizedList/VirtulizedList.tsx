@@ -1,49 +1,16 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import { FixedSizeList, ListChildComponentProps } from "react-window";
+import { FixedSizeList } from "react-window";
 import { Person } from "../../../types/Person";
-import useStarWarsStore, { useModalStore } from "../../../store";
-import { ListItemIcon } from "@mui/material";
-import PersonIcon from '@mui/icons-material/Person';
+import { VirtualizedListItem } from "../VirtualizedListItem/VirtualizedListItem";
+
+const LIST_HEIGHT = 400;
+const LIST_ITEM_HEIGHT = 46;
 
 interface VirtualizedListProps {
   items: Person[];
   loadMoreItems: () => void;
 }
-
-const renderRow = (items: Person[]) => (props: ListChildComponentProps) => {
-  const { index, style } = props;
-  const person = items[index];
-
-  const { setPerson } = useStarWarsStore();
-  const { onOpen } = useModalStore();
-
-  const handleClick = (person: Person) => {
-    setPerson(person);
-  };
-
-  return (
-    <ListItem style={style} key={person.id} component="div" disablePadding sx={{
-      p: 0, transition: "all 0.3s ease",
-      '&:hover': {
-        bgcolor: '#042548',
-      },
-    }}>
-      <ListItemButton onClick={() => {
-        onOpen();
-        handleClick(person);
-      }}>
-        <ListItemIcon>
-          <PersonIcon sx={{ color: "white" }} />
-        </ListItemIcon>
-        <ListItemText primary={person.name} />
-      </ListItemButton>
-    </ListItem>
-  );
-};
 
 export const VirtualizedList: React.FC<VirtualizedListProps> = ({
   items,
@@ -51,10 +18,10 @@ export const VirtualizedList: React.FC<VirtualizedListProps> = ({
 }) => {
   const itemCount = items.length;
 
-  const handleScroll = ({ scrollOffset, scrollUpdateWasRequested }: any) => {
+  const handleScroll = ({ scrollOffset, scrollUpdateWasRequested }: { scrollOffset: number; scrollUpdateWasRequested: boolean }) => {
     if (!scrollUpdateWasRequested && scrollOffset != 0) {
-      const bottomOffset = scrollOffset + 400;
-      if (bottomOffset >= itemCount * 46) {
+      const bottomOffset = scrollOffset + LIST_HEIGHT;
+      if (bottomOffset >= itemCount * LIST_ITEM_HEIGHT) {
         loadMoreItems();
       }
     }
@@ -78,7 +45,7 @@ export const VirtualizedList: React.FC<VirtualizedListProps> = ({
         overscanCount={5}
         onScroll={handleScroll}
       >
-        {renderRow(items)}
+        {VirtualizedListItem(items)}
       </FixedSizeList>
     </Box>
   );
