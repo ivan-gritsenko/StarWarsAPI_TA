@@ -2,6 +2,8 @@
 
 This project is a React-based web application that allows users to explore characters from the Star Wars universe. The app features infinite scrolling, a dynamic modal with a flow chart, and is fully tested.
 
+[DEMO LINK](https://star-wars-api-ta-ohot-cwx9lwipk-ivan-hrytsenkos-projects.vercel.app/)
+
 ## Features
 
 - **React**: A JavaScript library for building user interfaces.
