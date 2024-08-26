@@ -10,22 +10,17 @@
     "declarationDir": "./types",
     "esModuleInterop": true,
     "paths": {
-      "@app/*": [
+      "@src/*": [
         "./"
       ]
     },
     "types": [
       "@testing-library/jest-dom"
     ]
-    // ... other options ...
   },
   "references": [
     {
       "path": "./tsconfig.app.json"
     }
-  ],
-  "include": [
-    "src",
-    "src/types"
   ]
 }
